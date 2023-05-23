@@ -1,9 +1,14 @@
 # sample-database
 sample database to practice queries
 
-## create the database 
+## use existing demo database
+Go to [https://sqliteonline.com](https://sqliteonline.com) and select `File > Open DB` from the menu and select the file `sqlite_pizza_demo.db` .
+
+
+## create new the database 
 Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the contents from `create-schema.sql` and click RUN.
 
+## start querying
 You now have a filled database where you can look around and start querying.
 
 Example Query, (ingredient usage for all pizza's):
