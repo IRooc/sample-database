@@ -11,7 +11,8 @@ Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the cont
 ## start querying
 You now have a filled database where you can look around and start querying.
 
-Example Query, (ingredient usage for all pizza's):
+Example Query, (ingredient usage for all normal pizza's):
+
 ```sql
 SELECT ingredients.Name, ingredients.portionsize * SUM(pizza_ingredients.portions) UsedAmount, COUNT(*) UsedCount
 FROM pizza 
