@@ -5,7 +5,7 @@ sample database to practice queries
 Go to [https://sqliteonline.com](https://sqliteonline.com) and select `File > Open DB` from the menu and select the file `sqlite_pizza_demo.db` .
 
 
-## create new the database 
+## or create new the database 
 Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the contents from `create-schema.sql` and click RUN.
 
 ## start querying
