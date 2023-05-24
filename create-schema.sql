@@ -35,6 +35,7 @@ INSERT INTO pizza (ID, Name, Price) VALUES(3, 'Hawaii', 15.50);
 INSERT INTO pizza (ID, Name, Price) VALUES(4, 'Four Cheese', 17.50);
 INSERT INTO pizza (ID, Name, Price) VALUES(5, 'BBQ Chicken', 18.50);
 INSERT INTO pizza (ID, Name, Price) VALUES(6, 'CUSTOM', 20.50);
+INSERT INTO pizza (ID, Name, Price) VALUES(7, 'Mistery', 19.95);
 
 INSERT INTO ingredients (ID, Name, Type, PortionSize, Stock) VALUES(1, 'Cheese', 'Topping', 100.0, 10000.0);
 INSERT INTO ingredients (ID, Name, Type, PortionSize, Stock) VALUES(2, 'Mozarella', 'Topping', 100.0, 10000.0);
@@ -61,9 +62,15 @@ INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(4, 1, 2.0
 INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(4, 2, 2.0);
 INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(4, 6, 1.0);
 
-INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(5, 1, 2.0);
+INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(5, 1, 1.0);
+INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(5, 2, 1.0);
 INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(5, 5, 1.0);
 INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(5, 7, 1.0);
+
+INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(7, 1, 1.0);
+INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(7, 3, 2.0);
+INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(7, 4, 1.0);
+INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(7, 7, 2.0);
 
 INSERT INTO customers (ID, Name, Address) VALUES(1, 'Henk', 'Homestreet 1');
 INSERT INTO customers (ID, Name, Address) VALUES(2, 'Peter', 'Homestreet 2');
@@ -86,7 +93,7 @@ INSERT INTO order_lines (ID, OrderID, PizzaID, Amount) VALUES(6, 4, 6, 2);
 
 INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(6, 1, 1.0);
 INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(6, 2, 1.0);
-INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(6, 3, 1.0);
+INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(6, 3, 2.0);
 INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(6, 5, 1.0);
 INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(6, 8, 1.0);
 
