@@ -18,27 +18,79 @@
 		<div class="content">
 			<div id="query">
 				<textarea class="textarea" id="queryText" placeholder="e.g. select * from pizza">select * from pizza</textarea>
-				<button onclick="executeQuery()" class="button is-primary">Execute</button>
+				<button onclick="executeQuery()" class="button is-primary my-4">Execute</button>
 				<div id="results">
 
 				</div>
 			</div>
 			<div id="hacking" class="is-hidden">
-				hacking by injection
+				hacking by injection <a href="https://xkcd.com/327/">https://xkcd.com/327/</a>
+				<em>Todo</em>
 			</div>
 			<div id="setup" class="is-hidden">
-				<button onclick="setupDatabase()" class="button is-primary">Reset</button>
+				<button onclick="setupDatabase()" class="button is-primary">Reset database</button>
 			</div>
 		</div>
 	</div>
 	<script>
 		window.onload = () => {
 			setupTabs();
-			console.log('tabs ready');
 			setupDatabase();
-			console.log('bb');
-
 		};
+
+		//setup database stuff
+		const database = openDatabase('mydb', '1.0', 'pizza database', 2 * 1024 * 1024);
+		const results = document.getElementById('results');
+
+		executeQuery = () => {
+			database.transaction((tx) => {
+				results.innerHTML = '';
+				const queryText = document.getElementById('queryText').value;
+				console.log("executing", query);
+
+				//NOTE:
+				//To mimic SQL injection behaviour we just split the query by ; and execute the queries one after the other.
+				//this is just for educational purposes
+				const queries = queryText.split(';');
+
+				for (let q = 0; q < queries.length; q++) {
+					const query = queries[q].trim();
+					if (query) {
+						tx.executeSql(query, [], (tx, r) => {
+							console.log('results', r, r.rows.length);
+							let table = '<table class="table mb-6">';
+							if (r.rows.length > 0) {
+								table += '<thead><tr>';
+								const keys = Object.keys(r.rows[0]);
+								for (let k = 0; k < keys.length; k++) {
+									table += `<th>${keys[k]}</th>`;
+								}
+								table += '</tr></thead>';
+								table += '<tbody>';
+								for (let i = 0; i < r.rows.length; i++) {
+									const row = r.rows[i];
+									table += '<tr>';
+									for (let k = 0; k < keys.length; k++) {
+										table += `<td>${row[keys[k]]}</td>`;
+									}
+
+									table += '</tr>';
+								}
+
+								table += '</tbody>';
+								results.innerHTML += table;
+							} else {
+								results.innerHTML += 'No rows returned';
+							}
+						});
+					}
+				}
+			}, (err) => {
+				console.error('query error', err);
+				results.innerHTML = 'Error ' + err.message;
+			});
+		};
+
 		//setup tabs
 		setupTabs = () => {
 			const tabs = document.querySelectorAll('.tabs ul li');
@@ -59,60 +111,11 @@
 			}
 		}
 
-
-		//setup database stuff
-		const database = openDatabase('mydb', '1.0', 'pizza database', 2 * 1024 * 1024);
-		const results = document.getElementById('results');
-
-		executeQuery = () => {
-			database.transaction((tx) => {
-				results.innerHTML = '';
-				const query = document.getElementById('queryText').value;
-				console.log("executing", query);
-				tx.executeSql(query, [], (tx, r) => {
-					console.log('results', r, r.rows.length);
-					let table = '<table class="table">';
-					if (r.rows.length > 0) {
-						table += '<thead><tr>';
-						const keys = Object.keys(r.rows[0]);
-						for (let k = 0; k < keys.length; k++) {
-							table += `<th>${keys[k]}</th>`;
-						}
-						table += '</tr></thead>';
-						table += '<tbody>';
-						for (let i = 0; i < r.rows.length; i++) {
-							const row = r.rows[i];
-							table += '<tr>';
-							for (let k = 0; k < keys.length; k++) {
-								table += `<td>${row[keys[k]]}</td>`;
-							}
-
-							table += '</tr>';
-						}
-
-						table += '</tbody>';
-						results.innerHTML = table;
-					} else {
-						results.innerHTML = 'Nothing';
-					}
-				});
-			}, (err) => {
-				console.error('query error',err);
-				results.innerHTML = 'Error ' + err.message;
-			});
-
-
-		};
-
-
-
-
-
-
+		//load schema from same folder and execute the queries
 		setupDatabase = () => {
 			console.log('setupDatabase');
-			window.fetch('create-schema.sql').then(e => {
-				return e.text();
+			window.fetch('create-schema.sql').then(r => {
+				return r.text();
 			}).then(script => {
 				database.transaction((tx) => {
 					const lines = script.split(';');
