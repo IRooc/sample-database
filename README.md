@@ -2,7 +2,7 @@
 sample database to practice queries
 
 ## use the provided HTML file
-Browse to [https://irooc.github.io/sample-database](https://irooc.github.io/sample-database) and start quering. That page will load with the create-schema.sql file so you can start querying right away.
+Browse to [https://irooc.github.io/sample-database](https://irooc.github.io/sample-database) and start quering. That page will load with the [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/create-schema.sql) file so you can start querying right away.
 
 ## use existing demo database on sqliteonline
 Clone the repository to a local folder
@@ -13,7 +13,7 @@ Go to [https://sqliteonline.com](https://sqliteonline.com) and select `File > Op
 
 
 ## or create new the database on sqliteonline
-Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the contents from [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/docs/create-schema.sql) and click RUN.
+Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the contents from [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/create-schema.sql) and click RUN.
 
 
 ## start querying
