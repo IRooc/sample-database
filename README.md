@@ -10,7 +10,7 @@ Go to [https://sqliteonline.com](https://sqliteonline.com) and select `File > Op
 
 
 ## or create new the database 
-Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the contents from [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/create-schema.sql) and click RUN.
+Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the contents from [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/docs/create-schema.sql) and click RUN.
 
 
 ## start querying

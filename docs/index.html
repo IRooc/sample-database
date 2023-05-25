@@ -1,11 +1,134 @@
-<html>
-	<head>
-		<title>Query Sandbox</title>
-	</head>
-	<body>
-		test
-		<script>
-			console.log('test');
-		</script>
-	</body>
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Query Sandbox</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<div class="tabs">
+			<ul>
+				<li data-tab="query" class="is-active"><a>Queries</a></li>
+				<li data-tab="hacking"><a>Hacking</a></li>
+				<li data-tab="setup"><a>Setup</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<div id="query">
+				<textarea class="textarea" id="queryText" placeholder="e.g. select * from pizza">select * from pizza</textarea>
+				<button onclick="executeQuery()" class="button is-primary">Execute</button>
+				<div id="results">
+
+				</div>
+			</div>
+			<div id="hacking" class="is-hidden">
+				hacking by injection
+			</div>
+			<div id="setup" class="is-hidden">
+				<button onclick="setupDatabase()" class="button is-primary">Reset</button>
+			</div>
+		</div>
+	</div>
+	<script>
+		window.onload = () => {
+			setupTabs();
+			console.log('tabs ready');
+			setupDatabase();
+			console.log('bb');
+
+		};
+		//setup tabs
+		setupTabs = () => {
+			const tabs = document.querySelectorAll('.tabs ul li');
+			const contents = document.querySelectorAll('.content>div');
+			for (let i = 0; i < tabs.length; i++) {
+				const tab = tabs[i];
+				tab.addEventListener('click', (e) => {
+					console.log(e);
+					for (let t = 0; t < contents.length; t++) {
+						if (contents[t].classList.contains('is-hidden')) continue;
+						contents[t].classList.add('is-hidden');
+					}
+					const li = e.target.closest('li');
+					document.getElementById(li.dataset.tab).classList.remove('is-hidden');
+					document.querySelector('li.is-active')?.classList.remove('is-active');
+					li.classList.add('is-active');
+				});
+			}
+		}
+
+
+		//setup database stuff
+		const database = openDatabase('mydb', '1.0', 'pizza database', 2 * 1024 * 1024);
+		const results = document.getElementById('results');
+
+		executeQuery = () => {
+			database.transaction((tx) => {
+				results.innerHTML = '';
+				const query = document.getElementById('queryText').value;
+				console.log("executing", query);
+				tx.executeSql(query, [], (tx, r) => {
+					console.log('results', r, r.rows.length);
+					let table = '<table class="table">';
+					if (r.rows.length > 0) {
+						table += '<thead><tr>';
+						const keys = Object.keys(r.rows[0]);
+						for (let k = 0; k < keys.length; k++) {
+							table += `<th>${keys[k]}</th>`;
+						}
+						table += '</tr></thead>';
+						table += '<tbody>';
+						for (let i = 0; i < r.rows.length; i++) {
+							const row = r.rows[i];
+							table += '<tr>';
+							for (let k = 0; k < keys.length; k++) {
+								table += `<td>${row[keys[k]]}</td>`;
+							}
+
+							table += '</tr>';
+						}
+
+						table += '</tbody>';
+						results.innerHTML = table;
+					} else {
+						results.innerHTML = 'Nothing';
+					}
+				});
+			}, (err) => {
+				console.error('query error',err);
+				results.innerHTML = 'Error ' + err.message;
+			});
+
+
+		};
+
+
+
+
+
+
+		setupDatabase = () => {
+			console.log('setupDatabase');
+			window.fetch('create-schema.sql').then(e => {
+				return e.text();
+			}).then(script => {
+				database.transaction((tx) => {
+					const lines = script.split(';');
+					for (let i = 0; i < lines.length; i++) {
+						const query = lines[i].trim();
+						//console.log('q', query);
+						if (query) tx.executeSql(query);
+
+					}
+					console.log('executed script');
+				}, (err) => {
+					console.error('err', err);
+				});
+			});
+		}
+	</script>
+</body>
+
 </html>
