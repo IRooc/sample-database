@@ -17,7 +17,7 @@
 		</div>
 		<div class="content">
 			<div id="query">
-				<textarea class="textarea" id="queryText" placeholder="e.g. select * from pizza">select * from pizza</textarea>
+				<textarea class="textarea" id="queryText" placeholder="e.g. select * from pizza"></textarea>
 				<button onclick="executeQuery()" class="button is-primary my-4">Execute</button>
 				<div id="results">
 
@@ -36,6 +36,8 @@
 		window.onload = () => {
 			setupTabs();
 			setupDatabase();
+			const lastQuery = localStorage.getItem('last-query');
+			document.getElementById('queryText').value = lastQuery;
 		};
 
 		//setup database stuff
@@ -46,7 +48,11 @@
 			database.transaction((tx) => {
 				results.innerHTML = '';
 				const queryText = document.getElementById('queryText').value;
-				console.log("executing", query);
+				
+				//remember last query
+				localStorage.setItem('last-query', queryText);
+
+				console.log("executing:", query);
 
 				//NOTE:
 				//To mimic SQL injection behaviour we just split the query by ; and execute the queries one after the other.
@@ -80,14 +86,14 @@
 								table += '</tbody>';
 								results.innerHTML += table;
 							} else {
-								results.innerHTML += 'No rows returned';
+								results.innerHTML += 'No rows returned<br/>';
 							}
 						});
 					}
 				}
 			}, (err) => {
 				console.error('query error', err);
-				results.innerHTML = 'Error ' + err.message;
+				results.innerHTML = '<div class="has-text-danger">Error ' + err.message + '</div>';
 			});
 		};
 

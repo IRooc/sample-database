@@ -1,7 +1,10 @@
 # sample-database
 sample database to practice queries
 
-## use existing demo database
+## use the provided HTML file
+Browse to [https://irooc.github.io/sample-database](https://irooc.github.io/sample-database) and start quering. That page will load with the create-schema.sql file so you can start querying right away.
+
+## use existing demo database on sqliteonline
 Clone the repository to a local folder
 ```cmd
 git clone https://github.com/IRooc/sample-database.git
@@ -9,7 +12,7 @@ git clone https://github.com/IRooc/sample-database.git
 Go to [https://sqliteonline.com](https://sqliteonline.com) and select `File > Open DB` from the menu and select the file `sqlite_pizza_demo.db` from the local folder.
 
 
-## or create new the database 
+## or create new the database on sqliteonline
 Go to [https://sqliteonline.com](https://sqliteonline.com) and paste in the contents from [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/docs/create-schema.sql) and click RUN.
 
 
