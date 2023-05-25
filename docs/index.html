@@ -33,6 +33,7 @@
 		</div>
 	</div>
 	<script>
+		const results = document.getElementById('results');
 		window.onload = () => {
 			if (!database) {
 				results.innerHTML = 'Sadly your browser does not support embedded SQLite anymore, please goto <a href="https://sqliteonline.com/">sqliteonline.com</a> and read the readme from the repository to set it up';
@@ -44,7 +45,6 @@
 		};
 		//setup database stuff
 		const database = openDatabase('mydb', '1.0', 'pizza database', 2 * 1024 * 1024);
-		const results = document.getElementById('results');
 
 
 		executeQuery = () => {
