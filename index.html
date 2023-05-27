@@ -146,15 +146,17 @@
 			} catch (e) {
 				console.log(e);
 			}
-			if (!database) {
-				results.innerHTML = 'Sadly your browser does not support embedded SQLite anymore, please goto <a href="https://sqliteonline.com/">sqliteonline.com</a> and read the readme from the repository to set it up';
-			}
-			setupTabs();
-			setupDatabase();
+			if (database) {
+				setupTabs();
+				setupDatabase();
 
-			//restore last query
-			const lastQuery = localStorage.getItem('last-query');
-			document.getElementById('queryText').value = lastQuery;
+				//restore last query
+				const lastQuery = localStorage.getItem('last-query');
+				document.getElementById('queryText').value = lastQuery;
+			} else {
+				results.innerHTML = 'Sadly your browser does not support embedded SQLite anymore, please goto <a href="https://sqliteonline.com/">sqliteonline.com</a> and read the readme from <a href="https://github.com/IRooc/sample-database">the repository</a> to set it up';
+				document.getElementById('query').classList.remove('is-hidden');
+			}
 		};
 
 
