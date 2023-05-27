@@ -28,7 +28,7 @@
 			</div>
 			<div id="questions" class="is-hidden">
 				<h1>Questions that need an answer</h1>
-				<p>Based on the 
+				<p>Based on the
 			</div>
 			<div id="setup" class="is-hidden">
 				<button onclick="setupDatabase()" class="button is-primary">Reset database</button>
@@ -123,7 +123,6 @@
 						const query = lines[i].trim();
 						//console.log('q', query);
 						if (query) tx.executeSql(query);
-
 					}
 					console.log('executed script');
 					document.getElementById('query').classList.remove('is-hidden');
@@ -137,10 +136,16 @@
 				results.innerHTML = '<div class="has-text-danger">Loading error ' + err.message + '</div>';
 
 			});
-		}	
+		}
 
 		let database = null;
 		window.onload = () => {
+			try {
+				//setup database stuff
+				database = openDatabase('mydb', '1.0', 'pizza database', 2 * 1024 * 1024);
+			} catch (e) {
+				console.log(e);
+			}
 			if (!database) {
 				results.innerHTML = 'Sadly your browser does not support embedded SQLite anymore, please goto <a href="https://sqliteonline.com/">sqliteonline.com</a> and read the readme from the repository to set it up';
 			}
@@ -152,8 +157,6 @@
 			document.getElementById('queryText').value = lastQuery;
 		};
 
-		//setup database stuff
-		database = openDatabase('mydb', '1.0', 'pizza database', 2 * 1024 * 1024);
 
 	</script>
 </body>
