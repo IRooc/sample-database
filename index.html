@@ -31,8 +31,11 @@
 				<div id="results" class="block"></div>
 			</div>
 			<div id="hacking" class="is-hidden">
-				hacking by injection <a href="https://xkcd.com/327/">https://xkcd.com/327/</a>
-				<em>Todo</em>
+				<p>This is a link to your order page, try manipulating it to see what happens<br />
+					<a href="?orderid=3">Your order</a>
+				</p>
+				<div id="hackresults" class="block"></div>
+				<p>hacking by injection <a href="https://xkcd.com/327/">https://xkcd.com/327/</a></p>
 			</div>
 			<div id="questions" class="is-hidden">
 				<h1>Questions that need an answer</h1>
@@ -58,11 +61,13 @@
 	</div>
 	<script>
 		const results = document.getElementById('results');
+		const hackresults = document.getElementById('hackresults');
 
-		executeQuery = () => {
+		executeQuery = (query, target) => {
+			const result = target ?? results;
 			database.transaction((tx) => {
-				results.innerHTML = '';
-				const queryText = document.getElementById('queryText').value;
+				if (!target) result.innerHTML = '';
+				const queryText = query ?? document.getElementById('queryText').value;
 
 				//remember last query
 				localStorage.setItem('last-query', queryText);
@@ -99,16 +104,16 @@
 								}
 
 								table += '</tbody>';
-								results.innerHTML += table;
+								result.innerHTML += table;
 							} else {
-								results.innerHTML += 'No rows returned<br/>';
+								result.innerHTML += 'No rows returned<br/>';
 							}
 						});
 					}
 				}
 			}, (err) => {
 				console.error('query error', err);
-				results.innerHTML = '<div class="has-text-danger">Error ' + err.message + '</div>';
+				result.innerHTML += '<div class="has-text-danger">Error ' + err.message + '</div>';
 			});
 		};
 
@@ -136,7 +141,11 @@
 			if (curHash && curHash !== '#') {
 				document.getElementById(curHash.substring(1)).classList.remove('is-hidden');
 			} else {
-				document.getElementById('query').classList.remove('is-hidden');
+				if (document.location.search.startsWith('?orderid=')) {
+					document.getElementById('hacking').classList.remove('is-hidden');
+				} else {
+					document.getElementById('query').classList.remove('is-hidden');
+				}
 			}
 		}
 
@@ -166,6 +175,20 @@
 			});
 		}
 
+		checkHackAttempt = () => {
+			console.log('starting to hack');
+			const search = decodeURI(document.location.search);
+			if (search.startsWith('?orderid=')) {
+				const orderid = search.substring(9);
+				hackresults.innerHTML = 'hacking with ' + orderid
+				let query = `select * from orders join order_lines on orders.id = order_lines.orderid join customers on orders.customerid = customers.id where orders.id = ${orderid}`;
+				executeQuery(query, hackresults);
+
+			} else if (search) {
+				hackresults.innerHTML = 'try again';
+			}
+		}
+
 		let database = null;
 		window.onload = () => {
 			try {
@@ -181,6 +204,9 @@
 				//restore last query
 				const lastQuery = localStorage.getItem('last-query');
 				document.getElementById('queryText').value = lastQuery;
+
+				checkHackAttempt();
+
 			} else {
 				results.innerHTML = '<div class="has-text-danger">Sadly your browser does not support embedded SQLite anymore, please goto <a href="https://sqliteonline.com/">sqliteonline.com</a> and read the readme from <a href="https://github.com/IRooc/sample-database">the repository</a> to set it up</div>';
 				document.getElementById('query').classList.remove('is-hidden');
