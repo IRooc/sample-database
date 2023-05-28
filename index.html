@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="tabs">
 			<ul>
-				<li data-tab="query" class="is-active"><a>Queries</a></li>
+				<li data-tab="query"><a>Query</a></li>
 				<li data-tab="hacking"><a>Hacking</a></li>
 				<li data-tab="questions"><a>Questions</a></li>
 				<li data-tab="setup"><a>Setup</a></li>
@@ -37,8 +37,13 @@
 					<li>What ingerdients does the 'Mistery' pizza have?</li>
 
 				</ol>
+				<h3>Diagram</h3>
+				<img src="diagram.png" alt="Sample Database Diagram"/>
 			</div>
 			<div id="setup" class="is-hidden">
+				<p>If this page does not work in your browser please use the demo database or script from <a
+						href="https://github.com/IRooc/sample-database">the repository</a> on <a
+						href="https://sqliteonline.com/">https://sqliteonline.com/</a></p>
 				<button onclick="setupDatabase()" class="button is-primary">Reset database</button>
 			</div>
 		</div>
@@ -112,10 +117,18 @@
 						contents[t].classList.add('is-hidden');
 					}
 					const li = e.target.closest('li');
-					document.getElementById(li.dataset.tab).classList.remove('is-hidden');
+					const hash = li.dataset.tab;
+					document.location.hash = hash;
+					document.getElementById(hash).classList.remove('is-hidden');
 					document.querySelector('li.is-active')?.classList.remove('is-active');
 					li.classList.add('is-active');
 				});
+			}
+			const curHash = document.location.hash;
+			if (curHash && curHash !== '#') {
+				document.getElementById(curHash.substring(1)).classList.remove('is-hidden');
+			} else {
+				document.getElementById('query').classList.remove('is-hidden');
 			}
 		}
 
@@ -133,7 +146,6 @@
 						if (query) tx.executeSql(query);
 					}
 					console.log('executed script');
-					document.getElementById('query').classList.remove('is-hidden');
 				}, (err) => {
 					console.error('Schema err', err);
 					results.innerHTML = '<div class="has-text-danger">Schema error ' + err.message + '</div>';
@@ -149,13 +161,13 @@
 		let database = null;
 		window.onload = () => {
 			try {
+				setupTabs();
 				//setup database stuff
 				database = openDatabase('mydb', '1.0', 'pizza database', 2 * 1024 * 1024);
 			} catch (e) {
 				console.log(e);
 			}
 			if (database) {
-				setupTabs();
 				setupDatabase();
 
 				//restore last query
