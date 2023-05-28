@@ -98,7 +98,7 @@ INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUE
 INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(6, 8, 1.0);
 
 INSERT INTO orders (ID, CustomerID, AmountPaid, Date) VALUES(5, 4, 40.00, '2023-05-21 18:10');
-INSERT INTO order_lines (ID, OrderID, PizzaID, Amount) VALUES(7, 4, 6, 2);
+INSERT INTO order_lines (ID, OrderID, PizzaID, Amount) VALUES(7, 5, 6, 2);
 
 INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(7, 1, 1.0);
 INSERT INTO order_custom_ingredients (OrderLineID, IngredientID, Portions) VALUES(7, 2, 1.0);
