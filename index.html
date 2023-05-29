@@ -5,11 +5,8 @@
 	<title>Query Sandbox</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 	<style>
-		#query,
-		#hacking,
-		#questions,
-		#setup {
-			scroll-margin-top: 80px
+		* {
+			scroll-margin-top: 80px;
 		}
 	</style>
 </head>
@@ -19,8 +16,8 @@
 		<div class="tabs">
 			<ul>
 				<li data-tab="query"><a>Query</a></li>
-				<li data-tab="hacking"><a>Hacking</a></li>
 				<li data-tab="questions"><a>Questions</a></li>
+				<li data-tab="hacking"><a>Hacking</a></li>
 				<li data-tab="setup"><a>Setup</a></li>
 			</ul>
 		</div>
@@ -66,17 +63,19 @@
 		executeQuery = (query, target) => {
 			const result = target ?? results;
 			database.transaction((tx) => {
-				if (!target) result.innerHTML = '';
 				const queryText = query ?? document.getElementById('queryText').value;
 
-				//remember last query
-				localStorage.setItem('last-query', queryText);
+				if (!target) {
+					result.innerHTML = '';
+					//remember last query
+					localStorage.setItem('last-query', queryText);
 
+				}
 				console.log("executing: ", queryText);
 
 				//NOTE:
 				//To mimic SQL injection behaviour we just split the query by ; and execute the queries one after the other.
-				//this is just for educational purposes
+				//this is just for educational purposes!
 				const queries = queryText.split(';');
 
 				for (let q = 0; q < queries.length; q++) {
