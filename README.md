@@ -2,7 +2,9 @@
 sample database to practice queries
 
 ## use the provided HTML file
-Browse to [https://irooc.github.io/sample-database](https://irooc.github.io/sample-database) and start quering. That page will load with the [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/create-schema.sql) file so you can start querying right away.
+Browse to [https://irooc.github.io/sample-database](https://irooc.github.io/sample-database) and start quering. That page will load with the [create-schema.sql](https://raw.githubusercontent.com/IRooc/sample-database/main/create-schema.sql) file so you can start querying right away. 
+This file is intenionally selfcontained but it loads the create-schema file from the same folder, as an alternative you could just execute the sql the first time. For the 'hacking' excersize the file contains
+a sql-injection like handling of the queries to show the basics of this. This is not intended to be a complete explanation.
 
 ## use existing demo database on sqliteonline
 Clone the repository to a local folder
