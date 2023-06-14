@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS order_custom_ingredients;
 
 CREATE TABLE pizza (ID integer PRIMARY KEY, Name varchar(200), Price currency );
 CREATE TABLE ingredients (ID integer PRIMARY KEY, Name varchar(200), Type varchar(20), PortionSize decimal, Stock decimal);
-CREATE TABLE customers (ID integer PRIMARY KEY, Name varchar(200), Address text);
+CREATE TABLE customers (ID integer PRIMARY KEY, Name varchar(200), Address text, Discount integer);
 
 CREATE TABLE pizza_ingredients (PizzaID integer NOT NULL, IngredientID integer NOT NULL, Portions decimal NOT NULL,
                                 PRIMARY KEY(PizzaID, IngredientID),
@@ -72,10 +72,10 @@ INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(7, 3, 2.0
 INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(7, 4, 1.0);
 INSERT INTO pizza_ingredients (PizzaID, IngredientID, Portions) VALUES(7, 7, 2.0);
 
-INSERT INTO customers (ID, Name, Address) VALUES(1, 'Henk', 'Homestreet 1');
-INSERT INTO customers (ID, Name, Address) VALUES(2, 'Peter', 'Homestreet 2');
-INSERT INTO customers (ID, Name, Address) VALUES(3, 'Sonia', 'Homestreet 3');
-INSERT INTO customers (ID, Name, Address) VALUES(4, 'Madeline', 'Homestreet 4');
+INSERT INTO customers (ID, Name, Address, Discount) VALUES(1, 'Henk', 'Homestreet 1', 0);
+INSERT INTO customers (ID, Name, Address, Discount) VALUES(2, 'Peter', 'Homestreet 2', 10);
+INSERT INTO customers (ID, Name, Address, Discount) VALUES(3, 'Sonia', 'Homestreet 3', 0);
+INSERT INTO customers (ID, Name, Address, Discount) VALUES(4, 'Madeline', 'Homestreet 4', 15);
 
 INSERT INTO orders (ID, CustomerID, AmountPaid, Date) VALUES(1, 1, 30.00, '2023-05-01 17:30');
 INSERT INTO order_lines (ID, OrderID, PizzaID, Amount) VALUES(1, 1, 1, 2);
